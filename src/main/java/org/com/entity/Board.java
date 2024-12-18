@@ -55,6 +55,9 @@ public class Board {
     }
 
     public enum Status {
-        ACTIVE, INACTIVE
+        @Schema(description = "게시판 활성 상태")
+        ACTIVE,
+        @Schema(description = "게시판 비활성 상태")
+        INACTIVE
     }
 }
