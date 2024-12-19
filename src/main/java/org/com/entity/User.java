@@ -59,8 +59,9 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 
+
     public enum Role {
-        USER, SELLER, ADMIN
+        USER, SELLER, ADMIN, REPAIR
     }
 
     @Override

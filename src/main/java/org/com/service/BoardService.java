@@ -38,6 +38,9 @@ public class BoardService {
                 board.getBoardId(),
                 board.getTitle(),
                 board.getContent(),
+                board.getCreatedAt(),
+                board.getUpdatedAt(),
+                board.getStatus(),
                 board.getUser().getUsername()
         );
     }
@@ -49,6 +52,9 @@ public class BoardService {
                         board.getBoardId(),
                         board.getTitle(),
                         board.getContent(),
+                        board.getCreatedAt(),
+                        board.getUpdatedAt(),
+                        board.getStatus(),
                         board.getUser().getUsername()
                 )
         );
