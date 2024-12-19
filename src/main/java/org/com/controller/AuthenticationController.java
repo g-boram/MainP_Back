@@ -19,6 +19,7 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -34,25 +35,25 @@ public class AuthenticationController {
             String email = loginData.get("email");
             String password = loginData.get("password");
 
-            // 이메일과 비밀번호를 사용해 사용자 인증
+            // 사용자 인증
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            // JWT 토큰 생성
-            String token = jwtUtil.generateToken(userDetails.getUsername());
+            // 인증 성공 시 JWT 토큰 생성
+            String token = jwtUtil.generateToken(authentication.getName());
 
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            e.printStackTrace(); // 디버깅을 위해 예외 출력
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Invalid credentials");
             return ResponseEntity.status(401).body(errorResponse);
         }
     }
+
 
 
     // 회원가입 처리

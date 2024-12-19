@@ -2,6 +2,7 @@ package org.com.service;
 
 import org.com.component.JwtUtil;
 import org.com.entity.User;
+import org.com.exception.CustomUserException;
 import org.com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,21 +33,14 @@ public class UserService {
 
     // 로그인 처리
     public String login(String email, String password) throws Exception {
-        // 이메일로 사용자 조회
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new Exception("User not found"));
-
-        // 비밀번호 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new Exception("Invalid password");
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password)
+            );
+            return jwtUtil.generateToken(authentication.getName());
+        } catch (Exception e) {
+            throw new CustomUserException.InvalidCredentialsException("Invalid email or password");
         }
-
-        // 인증 객체 생성
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
-        );
-
-        // JWT 토큰 생성
-        return jwtUtil.generateToken(authentication.getName());
     }
 
 
@@ -54,7 +48,7 @@ public class UserService {
     public User registerUser(String username, String email, String password, String phoneNumber, String address) throws Exception {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new Exception("Email already in use");
+            throw new CustomUserException.UserAlreadyExistsException("Email already in use");
         }
 
         // 비밀번호 암호화
@@ -65,7 +59,8 @@ public class UserService {
         newUser.setUsername(username);
         newUser.setEmail(email);
         newUser.setPassword(encodedPassword);
-
+        newUser.setRole(User.Role.USER); // 기본 역할 설정
+//        newUser.setEnabled(true); // 활성화 상태 설정
 
         // 사용자 저장
         return userRepository.save(newUser);

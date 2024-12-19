@@ -3,45 +3,27 @@ package org.com.component;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "secret-key";
-    private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
+
 
     public String generateToken(String username) {
+        // 비밀 키를 문자열로 지정한 경우 SecretKeySpec 사용
+        String secretKeyString = "your-secret-key"; // 비밀 키
+        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1시간 후 만료
+                .signWith(secretKey) // SecretKey 객체로 서명
                 .compact();
-    }
-
-    // Validate token
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    // Extract username from token
-    public String extractUsername(String token) {
-        return parseClaims(token).getSubject();
-    }
-
-    private Claims parseClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
     }
 }

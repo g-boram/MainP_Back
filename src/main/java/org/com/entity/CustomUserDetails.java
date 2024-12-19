@@ -17,8 +17,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 사용자 권한 반환 (예: USER, ADMIN 등)
-        return Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()));
+        String role = "ROLE_" + user.getRole().toString(); // Ensure correct role format
+        return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
     @Override
@@ -28,27 +28,42 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        // 사용자 이름 대신 email을 반환하도록 수정
-        return user.getEmail(); // email을 username으로 사용
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            throw new IllegalStateException("User email cannot be null or empty");
+        }
+        return user.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return true; // 기본값 설정
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return true; // 기본값 설정
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return true; // 기본값 설정
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return true; // 기본값 설정
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CustomUserDetails that = (CustomUserDetails) obj;
+        return user.equals(that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return user.hashCode();
     }
 }

@@ -61,7 +61,7 @@ public class User {
 
 
     public enum Role {
-        USER, SELLER, ADMIN, REPAIR
+        USER, SELLER, ADMIN, REPAIR;
     }
 
     @Override
