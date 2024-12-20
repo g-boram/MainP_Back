@@ -1,5 +1,7 @@
 package org.com.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.component.JwtUtil;
 import org.com.entity.User;
 import org.com.service.UserService;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Auth API", description = "로그인/회원가입 관련 API")
 public class AuthenticationController {
 
 
@@ -29,6 +32,7 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "로그인 하기", description = "데이터베이스에 저장된 회원 확인 후 토큰발급.")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginData) {
         try {
@@ -57,6 +61,7 @@ public class AuthenticationController {
 
 
     // 회원가입 처리
+    @Operation(summary = "회원가입 처리", description = "입력값에 맞게 회원정보를 등록.")
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> registrationData) {
         try {
