@@ -45,7 +45,7 @@ public class UserService {
 
 
     // 회원가입 처리
-    public User registerUser(String username, String email, String password, String phoneNumber, String address) throws Exception {
+    public User registerUser(String username, String email, String password, String phoneNumber,String address, String gender) throws Exception {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email).isPresent()) {
             throw new CustomUserException.UserAlreadyExistsException("Email already in use");
@@ -58,6 +58,8 @@ public class UserService {
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setEmail(email);
+        newUser.setPhoneNumber(phoneNumber);
+        newUser.setGender(gender);
         newUser.setPassword(encodedPassword);
         newUser.setRole(User.Role.USER); // 기본 역할 설정
 //        newUser.setEnabled(true); // 활성화 상태 설정

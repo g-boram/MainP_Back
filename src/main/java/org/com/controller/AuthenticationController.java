@@ -70,9 +70,10 @@ public class AuthenticationController {
             String password = registrationData.get("password");
             String phoneNumber = registrationData.get("phoneNumber");
             String address = registrationData.get("address");
+            String gender = registrationData.get("gender");
 
             // 회원가입
-            User newUser = userService.registerUser(username, email, password, phoneNumber, address);
+            User newUser = userService.registerUser(username, email, password, phoneNumber, address, gender);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "User registered successfully");

@@ -38,6 +38,12 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
+
+    @Column(name = "gender", nullable = false)
+    private String gender;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
