@@ -34,6 +34,35 @@ public class CustomUserDetails implements UserDetails {
         return user.getEmail();
     }
 
+    // 추가 정보 접근자 메서드
+    public String getUserId() {
+        return String.valueOf(user.getUserId());
+    }
+
+    public String getPhoneNumber() {
+        return user.getPhoneNumber() != null ? user.getPhoneNumber() : "N/A";
+    }
+
+    public String getAddress() {
+        return user.getAddress() != null ? user.getAddress() : "N/A";
+    }
+
+    public User.Role getRole() {
+        return user.getRole();
+    }
+
+    public String getUsernameDisplay() {
+        return user.getUsername(); // DB의 `username` 필드
+    }
+
+    public String getCreatedAt() {
+        return user.getCreatedAt().toString();
+    }
+
+    public String getUpdatedAt() {
+        return user.getUpdatedAt().toString();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true; // 기본값 설정

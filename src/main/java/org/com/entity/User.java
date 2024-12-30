@@ -44,6 +44,9 @@ public class User {
     @Column(name = "gender", nullable = false)
     private String gender;
 
+    @Lob
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
@@ -64,6 +67,7 @@ public class User {
     public void onPreUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
 
 
     public enum Role {

@@ -30,6 +30,10 @@ public class Board {
     @Schema(description = "The content of the board", example = "This is the content of the board")
     private String content;
 
+    @Column(name = "category", nullable = false, length = 255)
+    @Schema(description = "The category of the board", example = "Test Board category")
+    private String category;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @Schema(description = "The date when the board was created", example = "2024-12-17T07:59:57.252Z")
     private LocalDateTime createdAt;
