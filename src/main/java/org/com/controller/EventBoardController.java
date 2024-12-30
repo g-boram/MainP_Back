@@ -1,23 +1,15 @@
 package org.com.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.com.dto.BoardRequestDto;
 import org.com.dto.BoardResponseDto;
-import org.com.dto.UserDto;
 import org.com.entity.Board;
-import org.com.entity.User;
 import org.com.service.BoardService;
-
-import org.com.service.S3Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,26 +17,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/eventBoard")
 @CrossOrigin(origins = "http://localhost:3000") // React frontend port
-@Tag(name = "Board API", description = "게시판 관련 API")
+@Tag(name = "Event_Board API", description = "이벤트게시판 관련 API")
 @Validated
-public class BoardController {
+public class EventBoardController {
 
     private final BoardService boardService;
-    private final S3Service s3Service;
 
-
-    public BoardController(BoardService boardService, S3Service s3Service) {
+    public EventBoardController(BoardService boardService) {
         this.boardService = boardService;
-        this.s3Service = s3Service;
     }
 
 
@@ -72,69 +55,17 @@ public class BoardController {
 
 
 
-    @Operation(summary = "게시판 생성", description = "게시판 데이터를 생성합니다. JSON 형태의 boardReq와 파일을 함께 전송합니다.")
+    @Operation(summary = "공지사항 게시판 생성", description = "새로운 공지사항 게시판을 생성합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공적으로 게시판을 생성했습니다."),
             @ApiResponse(responseCode = "400", description = "유효성 검증 실패."),
-            @ApiResponse(responseCode = "404", description = "게시판을 등록 할 수 없습니다.")
+            @ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없습니다.")
     })
-    @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity<Map<String, Object>> createBoard(
-        @Parameter(
-            description = "게시판 요청 데이터(JSON 형식)",
-            content = @Content(
-                schema = @Schema(implementation = BoardRequestDto.class),
-                examples = @ExampleObject(
-                    name = "Board Request Example",
-                    value = "{\"title\":\"Test Board Title\",\"content\":\"This is the content of the board\",\"category\":\"category\",\"userId\":1,\"status\":\"ACTIVE\",\"imageUrl\":\"multipartFile\"}"
-                )
-            )
-        )
-        @RequestPart("boardReq") String boardReqJson,
-        @Parameter(
-            description = "업로드할 파일",
-            content = @Content(
-                mediaType = "image/jpeg",
-                examples = @ExampleObject(
-                    name = "File Example",
-                    value = "image file data"
-                )
-            )
-        )
-        @RequestPart("file") MultipartFile file) throws JsonProcessingException {
-
-
-        System.out.println("createBoard-----Controller executed!");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
-
-        String fileUrl = s3Service.uploadFile(file);
-        boardRequestDto.setImageUrl(fileUrl);
-
-        Board board = boardService.createBoard(boardRequestDto);
-
-        // User 엔티티에서 UserDto 변환
-        User user = board.getUser();
-        UserDto userDto = new UserDto(
-            user.getUserId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getPhoneNumber(),
-            user.getRole()
-        );
-
-        // Board 객체에 UserDto를 포함하지 않고, 필요한 데이터를 응답에 추가
-        board.setUser(null);
-
-        // UserDto와 Board 정보를 포함하여 응답 반환
-        Map<String, Object> response = new HashMap<>();
-        response.put("board", board);
-        response.put("user", userDto);
-
-        return ResponseEntity.ok(response);
+    @PostMapping
+    public ResponseEntity<Board> createBoard(@Valid @RequestBody BoardRequestDto boardRequestDto) {
+        return ResponseEntity.ok(boardService.createBoard(boardRequestDto));
     }
-
+    
 
 
     @Operation(summary = "게시판 수정", description = "특정 ID의 게시판 정보를 수정합니다.")

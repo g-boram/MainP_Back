@@ -4,6 +4,7 @@ package org.com.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.com.dto.BoardRequestDto;
 import org.com.dto.BoardResponseDto;
+import org.com.dto.UserDto;
 import org.com.entity.Board;
 import org.com.entity.User;
 import org.com.repository.BoardRepository;
@@ -18,6 +19,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+
 
     public BoardService(BoardRepository boardRepository, UserRepository userRepository) {
         this.boardRepository = boardRepository;
@@ -65,14 +67,19 @@ public class BoardService {
         User user = userRepository.findById(boardRequestDto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
+
         Board board = new Board();
         board.setTitle(boardRequestDto.getTitle());
         board.setContent(boardRequestDto.getContent());
         board.setStatus(boardRequestDto.getStatus());
+        board.getCategory(boardRequestDto.getCategory());
+        board.getImageUrl(boardRequestDto.getImageUrl());
         board.setUser(user);
 
         return boardRepository.save(board);
     }
+
+
 
     @Transactional
     public Board updateBoard(Integer id, BoardRequestDto boardRequestDto) {

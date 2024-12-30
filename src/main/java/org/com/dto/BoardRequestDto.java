@@ -19,6 +19,9 @@ public class BoardRequestDto {
     @Schema(description = "게시판 내용", example = "This is the content of the board")
     private String content;
 
+    @Schema(description = "카테고리", example = "category")
+    private String category; // 기본값 설정
+
     @NotNull(message = "작성자 ID는 필수입니다.")
     @Schema(description = "작성자 ID", example = "1")
     private Integer userId;
@@ -27,4 +30,18 @@ public class BoardRequestDto {
     @Schema(description = "게시판 상태 (ACTIVE, INACTIVE)", example = "ACTIVE")
     private Board.Status status;
 
+    @Schema(description = "첨부파일", example = "multipartFile")
+    private String imageUrl;
+
+    @Override
+    public String toString() {
+        return "BoardRequestDto{" +
+            "title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", category='" + category + '\'' +
+            ", userId=" + userId +
+            ", status='" + status + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            '}';
+    }
 }
