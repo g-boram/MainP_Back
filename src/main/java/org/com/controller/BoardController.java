@@ -72,21 +72,24 @@ public class BoardController {
 
 
 
-    @Operation(summary = "게시판 생성", description = "게시판 데이터를 생성합니다. JSON 형태의 boardReq와 파일을 함께 전송합니다.")
+    @Operation(
+        summary = "게시글 생성",
+        description = "게시판 데이터를 생성합니다. JSON 형태의 boardReq와 파일을 함께 전송합니다.\n" +
+            "게시글 테스트 데이터 {\"title\":\"Test Board Title\",\"content\":\"This is the content of the board\",\"category\":\"other\",\"userId\":17,\"status\":\"ACTIVE\",\"role\":\"ADMIN\",\"imageUrl\":\"multipartFile\"}"
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공적으로 게시판을 생성했습니다."),
             @ApiResponse(responseCode = "400", description = "유효성 검증 실패."),
             @ApiResponse(responseCode = "404", description = "게시판을 등록 할 수 없습니다.")
     })
     @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity<Map<String, Object>> createBoard(
+    public ResponseEntity<Map<String, String>> createBoard(
         @Parameter(
-            description = "게시판 요청 데이터(JSON 형식)",
+            description = "게시글 요청 데이터(JSON 형식)",
             content = @Content(
                 schema = @Schema(implementation = BoardRequestDto.class),
                 examples = @ExampleObject(
-                    name = "Board Request Example",
-                    value = "{\"title\":\"Test Board Title\",\"content\":\"This is the content of the board\",\"category\":\"category\",\"userId\":1,\"status\":\"ACTIVE\",\"imageUrl\":\"multipartFile\"}"
+                    name = "Board Request Example"
                 )
             )
         )
@@ -109,29 +112,33 @@ public class BoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
 
-        String fileUrl = s3Service.uploadFile(file);
+        String fileUrl = s3Service.uploadFile(file, boardRequestDto.getCategory());
         boardRequestDto.setImageUrl(fileUrl);
 
-        Board board = boardService.createBoard(boardRequestDto);
+        boardService.createBoard(boardRequestDto);
+
+        // TODO: 다른곳에 사용하기!
+//        Board board = boardService.createBoard(boardRequestDto);
 
         // User 엔티티에서 UserDto 변환
-        User user = board.getUser();
-        UserDto userDto = new UserDto(
-            user.getUserId(),
-            user.getUsername(),
-            user.getEmail(),
-            user.getPhoneNumber(),
-            user.getRole()
-        );
+//        User user = board.getUser();
+//        UserDto userDto = new UserDto(
+//            user.getUserId(),
+//            user.getUsername(),
+//            user.getEmail(),
+//            user.getPhoneNumber(),
+//            user.getRole()
+//        );
 
         // Board 객체에 UserDto를 포함하지 않고, 필요한 데이터를 응답에 추가
-        board.setUser(null);
+//        board.setUser(null);
 
         // UserDto와 Board 정보를 포함하여 응답 반환
-        Map<String, Object> response = new HashMap<>();
-        response.put("board", board);
-        response.put("user", userDto);
-
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("board", board);
+//        response.put("user", userDto);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "게시글이 등록 되었습니다.");
         return ResponseEntity.ok(response);
     }
 

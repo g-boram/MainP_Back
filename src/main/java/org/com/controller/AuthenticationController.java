@@ -112,7 +112,7 @@ public class AuthenticationController {
         } catch (Exception e) {
             e.printStackTrace(); // 디버깅을 위해 예외 출력
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("message", "Invalid credentials");
+            errorResponse.put("message", "아이디와 비밀번호를 확인해주세요.");
             return ResponseEntity.status(401).body(errorResponse);
         }
     }
@@ -160,14 +160,15 @@ public class AuthenticationController {
             String gender = registrationData.get("gender");
 
             // 회원가입
-            User newUser = userService.registerUser(username, email, password, phoneNumber, address, gender);
+            userService.registerUser(username, email, password, phoneNumber, address, gender);
 
             Map<String, String> response = new HashMap<>();
-            response.put("message", "User registered successfully");
+            response.put("message", "회원가입이 완료되었습니다.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("message", e.getMessage());
+            System.out.println("***** ERROR: 회원가입 ***** " + e.getMessage());
+            errorResponse.put("message", "회원가입에 실패하였습니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
