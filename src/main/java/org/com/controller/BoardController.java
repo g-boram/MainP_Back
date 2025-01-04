@@ -104,7 +104,7 @@ public class BoardController {
                 )
             )
         )
-        @RequestPart("file") MultipartFile file) throws JsonProcessingException {
+        @RequestPart(value="file", required = false)  MultipartFile file) throws JsonProcessingException {
 
 
         System.out.println("createBoard-----Controller executed!");
@@ -112,7 +112,11 @@ public class BoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
 
-        String fileUrl = s3Service.uploadFile(file, boardRequestDto.getCategory());
+        String fileUrl = "";
+        if (file != null && !file.isEmpty()) {
+            fileUrl = s3Service.uploadFile(file, boardRequestDto.getCategory());
+        }
+
         boardRequestDto.setImageUrl(fileUrl);
 
         boardService.createBoard(boardRequestDto);
