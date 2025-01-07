@@ -75,7 +75,7 @@ public class EventBoardController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Board> updateBoard(@PathVariable Integer id, @Valid @RequestBody BoardRequestDto boardRequestDto) {
-        return ResponseEntity.ok(boardService.updateBoard(id, boardRequestDto));
+        return ResponseEntity.ok(boardService.updateBoard(boardRequestDto, boardRequestDto.getUserId(), boardRequestDto.getBoardId()));
     }
 
 

@@ -17,6 +17,10 @@ public class Board {
     @Schema(description = "The unique ID of the board", example = "1")
     private Integer boardId;
 
+    @Column(name = "updated_userId")
+    @Schema(description = "The board updated last userId", example = "userId")
+    private Integer updatedUserId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     @Schema(description = "User who created the board", implementation = User.class)

@@ -57,6 +57,12 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "updated_userId")
+    private LocalDateTime updatedUserId;
+
+    @Column(name = "updated_userName")
+    private LocalDateTime updatedUserName;
+
     @PrePersist
     public void onPrePersist() {
         createdAt = LocalDateTime.now();

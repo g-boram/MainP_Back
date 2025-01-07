@@ -23,6 +23,9 @@ public class BoardResponseDto {
     @Schema(description = "게시판 내용", example = "Sample Content")
     private String content;
 
+    @Schema(description = "카테고리", example = "category")
+    private String category; // 기본값 설정
+
     @Schema(description = "작성자 이름", example = "JohnDoe")
     private String username;
 
@@ -35,23 +38,29 @@ public class BoardResponseDto {
     @Schema(description = "활성화 여부", example = "ACTIVE / INACTIVE")
     private Board.Status status;
 
+    @Schema(description = "첨부파일", example = "multipartFile")
+    private String imageUrl;
 
     // 생성자: 필드 초기화
     public BoardResponseDto(
             Integer boardId,
             String title,
             String content,
+            String category,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
             Board.Status status,
+            String imageUrl,
             String username
     ) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
+        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
+        this.imageUrl = imageUrl;
         this.username = username;
     }
 }

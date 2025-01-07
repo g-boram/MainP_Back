@@ -26,6 +26,14 @@ public class BoardRequestDto {
     @Schema(description = "작성자 ID", example = "1")
     private Integer userId;
 
+    @Schema(description = "수정자 ID", example = "1")
+    private Integer updateUserId;
+
+    @NotNull(message = "게시글 ID는 필수입니다.")
+    @Schema(description = "게시글 ID", example = "1")
+    private Integer boardId;
+
+
     @NotNull(message = "상태는 필수입니다.")
     @Schema(description = "게시판 상태 (ACTIVE, INACTIVE)", example = "ACTIVE")
     private Board.Status status;
@@ -44,4 +52,6 @@ public class BoardRequestDto {
             ", imageUrl='" + imageUrl + '\'' +
             '}';
     }
+
+
 }
