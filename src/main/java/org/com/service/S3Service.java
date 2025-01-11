@@ -33,11 +33,10 @@ public class S3Service {
         .build();
   }
 
-  public String uploadFile(MultipartFile file, String category) {
+  public String uploadFile(MultipartFile file) {
     validateFile(file);
 
     String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-    String filePath = category + "/" + fileName;
 
     ObjectMetadata metadata = new ObjectMetadata();
     metadata.setContentLength(file.getSize());
@@ -49,7 +48,7 @@ public class S3Service {
       throw new RuntimeException("Error uploading file to S3", e);
     }
 
-    return s3Client.getUrl(bucketName, filePath).toString();
+    return s3Client.getUrl(bucketName, fileName).toString();
   }
 
   private void validateFile(MultipartFile file) {

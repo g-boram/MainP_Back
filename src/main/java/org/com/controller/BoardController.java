@@ -115,7 +115,7 @@ public class BoardController {
 
         String fileUrl = "";
         if (file != null && !file.isEmpty()) {
-            fileUrl = s3Service.uploadFile(file, boardRequestDto.getCategory());
+            fileUrl = s3Service.uploadFile(file);
         }
 
         boardRequestDto.setImageUrl(fileUrl);
@@ -200,7 +200,7 @@ public ResponseEntity<Map<String, String>> updateBoard(
         if (fileUrl != null && !fileUrl.isEmpty()) {
             s3Service.deleteFile(fileUrl); // 이전 파일 삭제
         }
-        fileUrl = s3Service.uploadFile(file, boardRequestDto.getCategory());
+        fileUrl = s3Service.uploadFile(file);
     }
 
     // 새 이미지 URL 설정
