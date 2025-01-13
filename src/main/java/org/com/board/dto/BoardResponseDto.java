@@ -1,11 +1,10 @@
-package org.com.dto;
+package org.com.board.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.com.entity.Board;
-import org.com.entity.User;
+import org.com.board.entity.Board;
 
 import java.time.LocalDateTime;
 

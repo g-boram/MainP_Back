@@ -1,8 +1,8 @@
-package org.com.service;
+package org.com.user.service;
 
-import org.com.entity.CustomUserDetails;
-import org.com.entity.User;
-import org.com.repository.UserRepository;
+import org.com.user.entity.CustomUserDetails;
+import org.com.user.entity.User;
+import org.com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

@@ -1,4 +1,4 @@
-package org.com.controller;
+package org.com.board.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,14 +10,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.com.dto.BoardRequestDto;
-import org.com.dto.BoardResponseDto;
-import org.com.dto.UserDto;
-import org.com.entity.Board;
-import org.com.entity.User;
-import org.com.service.BoardService;
+import org.com.board.dto.BoardRequestDto;
+import org.com.board.dto.BoardResponseDto;
+import org.com.board.service.BoardService;
 
-import org.com.service.S3Service;
+import org.com.board.service.S3Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;

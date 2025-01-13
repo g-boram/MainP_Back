@@ -1,11 +1,11 @@
-package org.com.dto;
+package org.com.user.dto;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.com.entity.User;
+import org.com.user.entity.User;
 
 @Getter
 @Setter
@@ -17,6 +17,6 @@ public class UserDto {
   private String username;
   private String email;
   private String phoneNumber;
-  private User.Role role;
+  private String role;
 
 }

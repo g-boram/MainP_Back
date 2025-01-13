@@ -1,20 +1,18 @@
 // Service Layer with Pagination and DTO Handling
-package org.com.service;
+package org.com.board.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotNull;
-import org.com.dto.BoardRequestDto;
-import org.com.dto.BoardResponseDto;
-import org.com.dto.UserDto;
-import org.com.entity.Board;
-import org.com.entity.BoardUpdateHistory;
-import org.com.entity.User;
-import org.com.repository.BoardRepository;
-import org.com.repository.BoardUpdateHistoryRepository;
-import org.com.repository.UserRepository;
+import org.com.board.dto.BoardRequestDto;
+import org.com.board.dto.BoardResponseDto;
+import org.com.board.entity.Board;
+import org.com.board.entity.BoardUpdateHistory;
+import org.com.user.entity.User;
+import org.com.board.repository.BoardRepository;
+import org.com.board.repository.BoardUpdateHistoryRepository;
+import org.com.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,18 +1,18 @@
-package org.com.service;
+package org.com.user.service;
 
 import org.com.component.JwtUtil;
-import org.com.entity.User;
+import org.com.user.dto.UserDto;
+import org.com.user.entity.User;
 import org.com.exception.CustomUserException;
-import org.com.repository.UserRepository;
+import org.com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -66,6 +66,50 @@ public class UserService {
 
         // 사용자 저장
         return userRepository.save(newUser);
+    }
+
+    // 전부 조회하기
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserByIdAll(Integer id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("해당하는 ID의 유저가 없습니다. : " + id));
+    }
+
+    public UserDto getUserById(Integer id) {
+        User user =  userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("해당하는 ID의 유저가 없습니다. : " + id));
+
+        return new UserDto(
+            user.getUserId(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getPhoneNumber(),
+            user.getRole().name()
+        );
+    }
+
+    public User updateUser(Integer id, User updatedUser) {
+        User existingUser = getUserByIdAll(id);
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        existingUser.setGender(updatedUser.getGender());
+        existingUser.setAddress(updatedUser.getAddress());
+        existingUser.setRole(updatedUser.getRole());
+        return userRepository.save(existingUser);
+    }
+
+    public void deleteUser(Integer id) {
+        User user = getUserByIdAll(id);
+        userRepository.delete(user);
+    }
+
+    public List<User> getUsersByRole(User.Role role) {
+        return userRepository.findByRole(role);
     }
 }
 

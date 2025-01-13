@@ -1,6 +1,6 @@
 package org.com.conf;
 
-import org.com.service.CustomUserDetailsService;
+import org.com.user.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,7 +31,8 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/board/**",
-                                "/car/**"
+                                "/car/**",
+                                "/users/**"
                         ).permitAll() // 인증 없이 접근 가능한 경로
                         .anyRequest().authenticated() // 나머지 요청은 인증 필요
                 )

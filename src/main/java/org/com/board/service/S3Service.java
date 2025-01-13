@@ -1,4 +1,4 @@
-package org.com.service;
+package org.com.board.service;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

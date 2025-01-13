@@ -1,8 +1,9 @@
-package org.com.entity;
+package org.com.board.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.com.user.entity.User;
 
 import java.time.LocalDateTime;
 

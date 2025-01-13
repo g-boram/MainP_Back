@@ -1,9 +1,11 @@
-package org.com.repository;
+package org.com.user.repository;
 
-import org.com.entity.User;
+import org.com.user.entity.User;
+import org.com.user.entity.User.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // Check if a user exists by email
     boolean existsByEmail(String email);
+
+    List<User> findByRole(Role role);
 }
