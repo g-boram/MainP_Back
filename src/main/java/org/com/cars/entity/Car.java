@@ -1,9 +1,11 @@
 package org.com.cars.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Cars")
@@ -56,6 +58,17 @@ public class Car {
 
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt = LocalDateTime.now();
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @JsonProperty("hashTags")
+  private List<String> hashtags;
+
+  @Column(name = "event_name", length = 100)
+  private String eventName; // 이벤트 이름
+
+  @Column(name = "event_end_time")
+  private String eventEndTime; // 이벤트 종료 시간
+
 
   public enum FuelType {
     GASOLINE, DIESEL, ELECTRIC, HYBRID;

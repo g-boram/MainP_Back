@@ -132,6 +132,9 @@ public class CarController {
     existingCar.setColor(updatedCarData.getColor());
     existingCar.setStatus(updatedCarData.getStatus());
     existingCar.setDescription(updatedCarData.getDescription());
+    existingCar.setHashtags(updatedCarData.getHashtags());
+    existingCar.setEventName(updatedCarData.getEventName());
+    existingCar.setEventEndTime(updatedCarData.getEventEndTime());
 
     if (file != null && !file.isEmpty()) {
       String fileUrl = s3Service.uploadFile(file);
