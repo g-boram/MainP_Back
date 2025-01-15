@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class UserService {
 
 
     // 회원가입 처리
-    public User registerUser(String username, String email, String password, String phoneNumber,String address, String gender) throws Exception {
+    public User registerUser(String username, String email, String password, String phoneNumber,String address, String gender, String birth) throws Exception {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email).isPresent()) {
             throw new CustomUserException.UserAlreadyExistsException("Email already in use");
@@ -62,7 +63,7 @@ public class UserService {
         newUser.setGender(gender);
         newUser.setPassword(encodedPassword);
         newUser.setRole(User.Role.USER); // 기본 역할 설정
-//        newUser.setEnabled(true); // 활성화 상태 설정
+        newUser.setBirth(birth);
 
         // 사용자 저장
         return userRepository.save(newUser);
@@ -91,6 +92,14 @@ public class UserService {
         );
     }
 
+    public List<User> getUsersByCriteria(String username, String email, String phoneNumber, String gender, String address) {
+
+        return userRepository.findUsersByCriteria(username,
+            email != null ? "%" + email + "%" : null,
+            address != null ? "%" + address + "%" : null,
+            phoneNumber, gender);
+    }
+
     public User updateUser(Integer id, User updatedUser) {
         User existingUser = getUserByIdAll(id);
         existingUser.setUsername(updatedUser.getUsername());
@@ -100,6 +109,7 @@ public class UserService {
         existingUser.setGender(updatedUser.getGender());
         existingUser.setAddress(updatedUser.getAddress());
         existingUser.setRole(updatedUser.getRole());
+        existingUser.setBirth(updatedUser.getBirth());
         return userRepository.save(existingUser);
     }
 

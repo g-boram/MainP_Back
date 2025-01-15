@@ -44,6 +44,12 @@ public class User {
     @Column(name = "gender", nullable = false)
     private String gender;
 
+    @Column(name = "birth", nullable = false)
+    private String birth;
+
+    @Column(name = "imageUrl", nullable = true)
+    private String imageUrl;
+
     @Lob
     private String address;
 

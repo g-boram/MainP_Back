@@ -134,7 +134,7 @@ public class AuthenticationController {
                                                "username": "admin",
                                                "phoneNumber": "01011112222",
                                                "gender": "여",
-                                               "photoURL": "",
+                                               "imageUrl": "",
                                                "birth": "20240101"
                                              }
                                             """,
@@ -156,9 +156,10 @@ public class AuthenticationController {
             String phoneNumber = registrationData.get("phoneNumber");
             String address = registrationData.get("address");
             String gender = registrationData.get("gender");
+            String birth = registrationData.get("birth");
 
             // 회원가입
-            userService.registerUser(username, email, password, phoneNumber, address, gender);
+            userService.registerUser(username, email, password, phoneNumber, address, gender, birth);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "회원가입이 완료되었습니다.");

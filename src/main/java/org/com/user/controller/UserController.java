@@ -30,6 +30,16 @@ public class UserController {
     return ResponseEntity.ok(users);
   }
 
+  @GetMapping("/filter")
+  public List<User> getFilterUsers(@RequestParam(required = false) String username,
+                                   @RequestParam(required = false) String email,
+                                   @RequestParam(required = false) String phoneNumber,
+                                   @RequestParam(required = false) String gender,
+                                   @RequestParam(required = false) String address
+                             ) {
+    return userService.getUsersByCriteria(username, email, phoneNumber, gender, address);
+  }
+
   // ID로 사용자 조회
   @Operation(summary = "특정 사용자 조회", description = "ID 값에 해당하는 사용자 정보를 반환합니다.")
   @GetMapping("/{id}")
