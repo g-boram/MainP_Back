@@ -46,15 +46,23 @@ public class UserService {
 
 
     // 회원가입 처리
-    public User registerUser(String username, String email, String password, String phoneNumber,String address, String gender, String birth) throws Exception {
+    public User registerUser(
+        String username,
+        String email,
+        String password,
+        String phoneNumber,
+        String address,
+        String gender,
+        String birth,
+        User.Role role,
+        String imageUrl
+    ) throws Exception {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email).isPresent()) {
             throw new CustomUserException.UserAlreadyExistsException("Email already in use");
         }
-
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
-
         // 새 사용자 생성
         User newUser = new User();
         newUser.setUsername(username);
@@ -62,8 +70,10 @@ public class UserService {
         newUser.setPhoneNumber(phoneNumber);
         newUser.setGender(gender);
         newUser.setPassword(encodedPassword);
-        newUser.setRole(User.Role.USER); // 기본 역할 설정
         newUser.setBirth(birth);
+        newUser.setAddress(address);
+        newUser.setRole(role != null ? role : User.Role.USER);
+        newUser.setImageUrl(imageUrl);
 
         // 사용자 저장
         return userRepository.save(newUser);
@@ -110,6 +120,8 @@ public class UserService {
         existingUser.setAddress(updatedUser.getAddress());
         existingUser.setRole(updatedUser.getRole());
         existingUser.setBirth(updatedUser.getBirth());
+        existingUser.setAddress(updatedUser.getAddress());
+        existingUser.setImageUrl(updatedUser.getImageUrl());
         return userRepository.save(existingUser);
     }
 

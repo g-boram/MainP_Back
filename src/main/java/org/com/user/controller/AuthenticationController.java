@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.component.JwtUtil;
 import org.com.user.entity.CustomUserDetails;
+import org.com.user.entity.User;
 import org.com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -157,9 +158,20 @@ public class AuthenticationController {
             String address = registrationData.get("address");
             String gender = registrationData.get("gender");
             String birth = registrationData.get("birth");
+            String role = registrationData.get("role"); // role 추가
+            String imageUrl = registrationData.get("imageUrl");
 
+            // role 값 파싱
+            User.Role userRole = null;
+            if (role != null) {
+                try {
+                    userRole = User.Role.valueOf(role.toUpperCase());
+                } catch (IllegalArgumentException ex) {
+                    userRole = User.Role.USER; // 잘못된 값인 경우 기본값 설정
+                }
+            }
             // 회원가입
-            userService.registerUser(username, email, password, phoneNumber, address, gender, birth);
+            userService.registerUser(username, email, password, phoneNumber, address, gender, birth, userRole, imageUrl);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "회원가입이 완료되었습니다.");

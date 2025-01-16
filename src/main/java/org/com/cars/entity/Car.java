@@ -63,10 +63,10 @@ public class Car {
   @JsonProperty("hashTags")
   private List<String> hashtags;
 
-  @Column(name = "event_name", length = 100)
+  @Column(name = "event_name", length = 100, nullable = true)
   private String eventName; // 이벤트 이름
 
-  @Column(name = "event_end_time")
+  @Column(name = "event_end_time", nullable = true)
   private String eventEndTime; // 이벤트 종료 시간
 
 
