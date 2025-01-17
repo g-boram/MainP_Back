@@ -35,6 +35,7 @@ public class Car {
   @Column(name = "mileage", nullable = false)
   private Integer mileage;
 
+
   @Enumerated(EnumType.STRING)
   @Column(name = "fuel_type", nullable = false)
   private FuelType fuelType;
