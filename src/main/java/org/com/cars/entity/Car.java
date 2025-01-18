@@ -69,6 +69,24 @@ public class Car {
   @Column(name = "event_end_time", nullable = true)
   private String eventEndTime; // 이벤트 종료 시간
 
+  @ElementCollection(fetch = FetchType.EAGER)
+  @JsonProperty("carOptionData")
+  private List<CarOption> carOptionData; // 차량 정비옵션
+
+  @Column(name = "order_user_id", nullable = true)
+  private String orderUserId; // 소유주 아이디
+
+  @Column(name = "repair_user_id", nullable = true)
+  private String repairUserId; // 정비자 아이디
+
+  @Column(name = "car_number", nullable = true)
+  private String carNumber; // 자동차번호
+
+  @Column(name = "car_status", nullable = true)
+  private String carStatus; // 정비상태
+
+  @Column(name = "seller_status", nullable = true)
+  private String sellerStatus; // 정비상태
 
   public enum FuelType {
     GASOLINE, DIESEL, ELECTRIC, HYBRID;

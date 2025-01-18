@@ -89,6 +89,10 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("해당하는 ID의 유저가 없습니다. : " + id));
     }
 
+    public boolean isEmailDuplicated(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public UserDto getUserById(Integer id) {
         User user =  userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("해당하는 ID의 유저가 없습니다. : " + id));
@@ -122,6 +126,8 @@ public class UserService {
         existingUser.setBirth(updatedUser.getBirth());
         existingUser.setAddress(updatedUser.getAddress());
         existingUser.setImageUrl(updatedUser.getImageUrl());
+        existingUser.setUpdatedUserId(updatedUser.getUpdatedUserId());
+        existingUser.setUpdatedUserName(updatedUser.getUpdatedUserName());
         return userRepository.save(existingUser);
     }
 

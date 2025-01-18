@@ -63,11 +63,11 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "updated_userId")
-    private LocalDateTime updatedUserId;
+    @Column(name = "updated_user_id")
+    private String updatedUserId;
 
-    @Column(name = "updated_userName")
-    private LocalDateTime updatedUserName;
+    @Column(name = "updated_user_name")
+    private String updatedUserName;
 
     @PrePersist
     public void onPrePersist() {

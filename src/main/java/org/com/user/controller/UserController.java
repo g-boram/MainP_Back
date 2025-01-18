@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -46,6 +48,18 @@ public class UserController {
   public ResponseEntity<UserDto> getUserById(@PathVariable Integer id) {
     UserDto userDTO = userService.getUserById(id);
     return ResponseEntity.ok(userDTO);
+  }
+
+  // 이메일 중복체크
+  @GetMapping("/checkEmail")
+  public ResponseEntity<Map<String, Object>> checkEmail(@RequestParam String email) {
+    boolean isDuplicated = userService.isEmailDuplicated(email);
+
+    Map<String, Object> response = new HashMap<>();
+    response.put("email", email);
+    response.put("isDuplicated", isDuplicated);
+
+    return ResponseEntity.ok(response);
   }
 
   // 사용자 수정

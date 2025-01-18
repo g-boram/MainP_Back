@@ -135,6 +135,12 @@ public class CarController {
     existingCar.setHashtags(updatedCarData.getHashtags());
     existingCar.setEventName(updatedCarData.getEventName());
     existingCar.setEventEndTime(updatedCarData.getEventEndTime());
+    existingCar.setCarOptionData(updatedCarData.getCarOptionData());
+    existingCar.setCarNumber(updatedCarData.getCarNumber());
+    existingCar.setOrderUserId(updatedCarData.getOrderUserId());
+    existingCar.setCarStatus(updatedCarData.getCarStatus());
+    existingCar.setSellerStatus(updatedCarData.getSellerStatus());
+    existingCar.setRepairUserId(updatedCarData.getRepairUserId());
 
     if (file != null && !file.isEmpty()) {
       String fileUrl = s3Service.uploadFile(file);
