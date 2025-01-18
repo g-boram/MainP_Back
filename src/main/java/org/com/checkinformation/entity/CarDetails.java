@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.StringJoiner;
+
 @Entity
 @Getter
 @Setter
@@ -23,4 +25,19 @@ public class CarDetails {
     @Column(name = "birth_date",nullable = false, length = 10) // 생년월일 필수
     private String birthDate;
 
+    @Column(name = "carname",nullable = false, length = 10) // 차량 모델 이름
+    private String carName;
+
+    @Column(name = "carprice",nullable = false, length = 10) // 차량 모델 이름
+    private String carPrice;
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", CarDetails.class.getSimpleName() + "[", "]")
+                .add("carNumber='" + carNumber + "'")
+                .add("carName='" + carName + "'")
+                .add("ownerName='" + ownerName + "'")
+                .add("birthDate='" + birthDate + "'")
+                .toString();
+    }
 }

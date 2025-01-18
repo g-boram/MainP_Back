@@ -3,11 +3,13 @@ package org.com.checkinformation.controller;
 import org.com.checkinformation.entity.CarDetails;
 import org.com.checkinformation.repository.CarDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -70,4 +72,16 @@ public class CarDetailsController {
             this.isValid = isValid;
         }
     }
+
+    @GetMapping("/details/{carNumber}")
+    public CarDetails getCarDetailsByCarNumber(@PathVariable("carNumber") String carNumber) {
+        Optional<CarDetails> carDetails = carDetailsRepository.findByCarNumber(carNumber);
+        if (carDetails.isPresent()) {
+            System.out.println("getCarname 데이터값 : "+carDetails.get());
+            return carDetails.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found");
+        }
+    }
+
 }
