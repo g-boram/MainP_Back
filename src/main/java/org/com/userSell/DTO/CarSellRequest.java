@@ -1,5 +1,7 @@
 package org.com.userSell.DTO;
 
+import java.time.LocalDateTime;
+
 public class CarSellRequest {
     private String region;
     private String phone;
@@ -9,8 +11,27 @@ public class CarSellRequest {
     private String color;
     private String notes;
     private String orderStatus;
+    private LocalDateTime createdAt; // 등록 시간 추가
+    private String carNum;
 
-    // Getter and Setter for region
+    public void setCarNum(String carNum) {
+        this.carNum = carNum;
+    }
+
+    public String getCarNum(){
+        return carNum;
+    }
+
+    // Getter and Setter for createdAt
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    // Getter and Setter for orderStatus
     public String getOrderStatus() {
         return orderStatus;
     }
@@ -19,7 +40,7 @@ public class CarSellRequest {
         this.orderStatus = orderStatus;
     }
 
-
+    // Getter and Setter for region
     public String getRegion() {
         return region;
     }

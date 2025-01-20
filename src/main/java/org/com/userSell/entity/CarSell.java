@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
-@Table(name="carsellrequests")
+@Table(name = "carsellrequests")
 public class CarSell {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +21,16 @@ public class CarSell {
     private String price;
     private String color;
     private String notes;
-    @Column(name = "orderstatus" )
+    private String carnum;
+
+    @Column(name = "orderstatus")
     private String orderStatus;
 
-    // Getters and Setters
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
