@@ -1,13 +1,15 @@
 package org.com.board.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,32 +18,53 @@ public class BoardUpdateHistory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "history_id", nullable = false)
   private Long historyId;
 
-  @Column(nullable = false)
+
+  @Column(name = "board_id", nullable = false)
   private Integer boardId;
 
-  @Column(nullable = false)
+  @Column(name="updated_by", nullable = false)
   private Integer updatedBy;
 
-  @Column(nullable = false)
+  @Column(name = "field_name", nullable = false)
   private String fieldName;
 
-  @Column(columnDefinition = "TEXT")
+  @Column(name = "old_value", columnDefinition = "TEXT")
   private String oldValue;
 
-  @Column(columnDefinition = "TEXT")
+  @Column(name = "new_value", columnDefinition = "TEXT")
   private String newValue;
 
   @Column(nullable = false)
   private Board.Status status;
 
-  @Column(nullable = false)
+  @Column(name="updated_at", nullable = false)
   private LocalDateTime updatedAt;
 
-  public BoardUpdateHistory(Integer boardId, Integer updatedByUserId, String title, String title1, String title2, LocalDateTime now) {
+  @PrePersist
+  @PreUpdate
+  public void setUpdatedAt() {
+    this.updatedAt = LocalDateTime.now();
   }
 
-  public BoardUpdateHistory(Integer boardId, Integer updatedByUserId, String status, Board.Status status1, Board.Status status2, LocalDateTime now) {
+  public BoardUpdateHistory(Integer boardId, Integer updatedBy, String fieldName, String oldValue, String newValue, LocalDateTime updatedAt) {
+    this.boardId = boardId;
+    this.updatedBy = updatedBy;
+    this.fieldName = fieldName;
+    this.oldValue = oldValue;
+    this.newValue = newValue;
+    this.updatedAt = updatedAt;
   }
+
+  public BoardUpdateHistory(Integer boardId, Integer updatedBy, String fieldName, Board.Status oldStatus, Board.Status newStatus, LocalDateTime updatedAt) {
+    this.boardId = boardId;
+    this.updatedBy = updatedBy;
+    this.fieldName = fieldName;
+    this.oldValue = oldStatus != null ? oldStatus.name() : null;
+    this.newValue = newStatus != null ? newStatus.name() : null;
+    this.updatedAt = updatedAt;
+  }
+
 }

@@ -2,7 +2,6 @@ package org.com.cars.service;
 
 import org.com.cars.entity.Car;
 import org.com.cars.repository.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
