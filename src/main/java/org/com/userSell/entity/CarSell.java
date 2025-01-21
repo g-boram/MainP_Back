@@ -1,5 +1,6 @@
 package org.com.userSell.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +10,13 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "carsellrequests")
+@Table(name="carsellrequests")
 public class CarSell {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long sellerId;
+    private String username;
     private String region;
     private String phone;
     private String time;
@@ -21,16 +24,14 @@ public class CarSell {
     private String price;
     private String color;
     private String notes;
-    private String carnum;
+    private String email;
+    private String orderUserId;
 
-    @Column(name = "orderstatus")
+    @Column(name = "orderstatus" )
     private String orderStatus;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+    // Getters and Setters
 }

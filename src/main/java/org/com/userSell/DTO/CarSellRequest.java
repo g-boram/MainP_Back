@@ -1,6 +1,15 @@
 package org.com.userSell.DTO;
 
+
+import lombok.*;
 import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 
 public class CarSellRequest {
     private String region;
@@ -27,11 +36,7 @@ public class CarSellRequest {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    // Getter and Setter for orderStatus
+    // Getter and Setter for region
     public String getOrderStatus() {
         return orderStatus;
     }
@@ -40,7 +45,7 @@ public class CarSellRequest {
         this.orderStatus = orderStatus;
     }
 
-    // Getter and Setter for region
+
     public String getRegion() {
         return region;
     }
