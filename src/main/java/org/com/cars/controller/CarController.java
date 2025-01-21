@@ -2,6 +2,7 @@ package org.com.cars.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.board.service.S3Service;
@@ -91,6 +92,8 @@ public class CarController {
 
     // JSON을 객체로 변환
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+
     Car car = objectMapper.readValue(carReq, Car.class);
     // 파일 처리
     if (file != null && !file.isEmpty()) {
@@ -115,6 +118,7 @@ public class CarController {
 
     // JSON을 객체로 변환
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
     Car updatedCarData = objectMapper.readValue(carReq, Car.class);
 
     // 기존 데이터 가져오기

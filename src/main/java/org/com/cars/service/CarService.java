@@ -43,7 +43,7 @@ public class CarService {
       String make, String model, String color, Integer year, String status,
       Double minPrice, Double maxPrice, Double minMileage, Double maxMileage,
       String fuelType, String transmission) {
-    Specification<Car> spec = CarSpecifications.filterCars(
+      Specification<Car> spec = CarSpecifications.filterCars(
         make, model, color, year, status, minPrice, maxPrice, minMileage, maxMileage, fuelType, transmission);
     return carRepository.findAll(spec);
   }

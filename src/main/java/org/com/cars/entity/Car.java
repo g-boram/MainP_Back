@@ -1,5 +1,6 @@
 package org.com.cars.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -58,6 +59,7 @@ public class Car {
   @Column(name = "image_url", columnDefinition = "TEXT")
   private String imageUrl;
 
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @Column(name = "created_at", nullable = false, updatable = false)
   private LocalDateTime createdAt = LocalDateTime.now();
 
