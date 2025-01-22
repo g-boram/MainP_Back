@@ -7,6 +7,7 @@ import org.com.board.dto.BoardRequestDto;
 import org.com.board.dto.BoardResponseDto;
 import org.com.board.entity.Board;
 import org.com.board.entity.BoardUpdateHistory;
+import org.com.cars.entity.Car;
 import org.com.user.entity.User;
 import org.com.board.repository.BoardRepository;
 import org.com.board.repository.BoardUpdateHistoryRepository;
@@ -28,11 +29,26 @@ public class BoardService {
     private final UserRepository userRepository;
     private final BoardUpdateHistoryRepository boardUpdateHistoryRepository;
 
-
     public BoardService(BoardRepository boardRepository, UserRepository userRepository, BoardUpdateHistoryRepository boardUpdateHistoryRepository) {
         this.boardRepository = boardRepository;
         this.userRepository = userRepository;
         this.boardUpdateHistoryRepository = boardUpdateHistoryRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> getAllBoardsWithoutPaging() {
+        List<Board> boards = boardRepository.findAll();
+        return boards.stream().map(board -> new BoardResponseDto(
+            board.getBoardId(),
+            board.getTitle(),
+            board.getContent(),
+            board.getCategory(),
+            board.getCreatedAt(),
+            board.getUpdatedAt(),
+            board.getStatus(),
+            board.getImageUrl(),
+            board.getUser().getUsername()
+        )).toList();
     }
 
     @Transactional(readOnly = true)
@@ -43,9 +59,25 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardResponseDto getBoardById(Integer id) {
         Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Board not found"));
 
         return new BoardResponseDto(
+            board.getBoardId(),
+            board.getTitle(),
+            board.getContent(),
+            board.getCategory(),
+            board.getCreatedAt(),
+            board.getUpdatedAt(),
+            board.getStatus(),
+            board.getImageUrl(),
+            board.getUser().getUsername()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BoardResponseDto> getPagedBoards(Pageable pageable) {
+        return boardRepository.findAll(pageable).map(board ->
+            new BoardResponseDto(
                 board.getBoardId(),
                 board.getTitle(),
                 board.getContent(),
@@ -55,30 +87,14 @@ public class BoardService {
                 board.getStatus(),
                 board.getImageUrl(),
                 board.getUser().getUsername()
-        );
-    }
-
-    @Transactional(readOnly = true)
-    public Page<BoardResponseDto> getPagedBoards(Pageable pageable) {
-        return boardRepository.findAll(pageable).map(board ->
-                new BoardResponseDto(
-                        board.getBoardId(),
-                        board.getTitle(),
-                        board.getContent(),
-                        board.getCategory(),
-                        board.getCreatedAt(),
-                        board.getUpdatedAt(),
-                        board.getStatus(),
-                        board.getImageUrl(),
-                        board.getUser().getUsername()
-                )
+            )
         );
     }
 
     @Transactional
     public Board createBoard(BoardRequestDto boardRequestDto) {
         User user = userRepository.findById(boardRequestDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 
         Board board = new Board();

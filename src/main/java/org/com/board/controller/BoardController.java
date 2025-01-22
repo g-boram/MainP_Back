@@ -12,10 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.board.dto.BoardRequestDto;
 import org.com.board.dto.BoardResponseDto;
+import org.com.board.entity.Board;
 import org.com.board.entity.BoardUpdateHistory;
 import org.com.board.service.BoardService;
 import org.com.board.service.BoardUpdateHistoryService;
 import org.com.board.service.S3Service;
+import org.com.cars.entity.Car;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -47,7 +49,15 @@ public class BoardController {
         this.boardUpdateHistoryService = boardUpdateHistoryService;
     }
 
-
+    @Operation(
+        summary = "전체 차량 조회",
+        description = "전체 차량을 조회합니다."
+    )
+    @GetMapping("/all")
+    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
+        List<BoardResponseDto> boards = boardService.getAllBoardsWithoutPaging();
+        return ResponseEntity.ok(boards);
+    }
 
     @Operation(summary = "페이징된 게시판 조회", description = "페이징, 정렬 옵션을 사용하여 게시판 정보를 조회합니다.")
     @GetMapping("/paged")

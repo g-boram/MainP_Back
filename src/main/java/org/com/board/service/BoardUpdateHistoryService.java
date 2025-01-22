@@ -19,4 +19,3 @@ public class BoardUpdateHistoryService {
     return repository.findByBoardId(boardId);
   }
 }
-

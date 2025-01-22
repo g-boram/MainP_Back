@@ -42,15 +42,15 @@ public class BoardResponseDto {
 
     // 생성자: 필드 초기화
     public BoardResponseDto(
-            Integer boardId,
-            String title,
-            String content,
-            String category,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt,
-            Board.Status status,
-            String imageUrl,
-            String username
+        Integer boardId,
+        String title,
+        String content,
+        String category,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
+        Board.Status status,
+        String imageUrl,
+        String username
     ) {
         this.boardId = boardId;
         this.title = title;
