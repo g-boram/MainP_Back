@@ -179,6 +179,7 @@ public class BoardController {
         boardRequestDto.setImageUrl(fileUrl);
         boardService.updateBoard(boardRequestDto, boardRequestDto.getBoardId(), boardRequestDto.getUserId());
 
+        System.out.println();
         Map<String, String> response = new HashMap<>();
         response.put("message", "게시글이 수정되었습니다.");
         return ResponseEntity.ok(response);
@@ -199,6 +200,7 @@ public class BoardController {
     @Operation(summary = "게시판 수정내역 조회", description = "특정 ID의 게시판의 수정내역을 보여줍니다.")
     @GetMapping("/history/{boardId}")
     public List<BoardUpdateHistory> getUpdateHistory(@PathVariable Integer boardId) {
+
         return boardUpdateHistoryService.getUpdateHistoryByBoardId(boardId);
     }
 }

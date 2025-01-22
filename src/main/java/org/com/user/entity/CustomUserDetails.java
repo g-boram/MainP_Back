@@ -63,6 +63,14 @@ public class CustomUserDetails implements UserDetails {
         return user.getUpdatedAt().toString();
     }
 
+    public String getGender() {
+        return user.getGender();
+    }
+
+    public String getBirth() {
+        return user.getBirth();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true; // 기본값 설정

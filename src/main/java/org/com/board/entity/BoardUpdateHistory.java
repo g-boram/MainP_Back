@@ -28,6 +28,8 @@ public class BoardUpdateHistory {
   @Column(name="updated_by", nullable = false)
   private Integer updatedBy;
 
+
+
   @Column(name = "field_name", nullable = false)
   private String fieldName;
 

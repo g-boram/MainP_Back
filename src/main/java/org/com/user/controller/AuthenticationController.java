@@ -100,9 +100,11 @@ public class AuthenticationController {
             user.put("phone", userDetails.getPhoneNumber());
             user.put("address", userDetails.getAddress());
             user.put("role", userDetails.getRole());
+            user.put("gender", userDetails.getGender());
             user.put("username", userDetails.getUsernameDisplay());
             user.put("createdAt", userDetails.getCreatedAt());
             user.put("updatedAt", userDetails.getUpdatedAt());
+            user.put("birth", userDetails.getBirth());
 
             response.put("user", user);
 

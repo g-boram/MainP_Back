@@ -56,6 +56,7 @@ public class Board {
     @Schema(description = "The status of the board", example = "ACTIVE")
     private Status status;
 
+
     @PrePersist
     public void onPrePersist() {
         createdAt = LocalDateTime.now();
