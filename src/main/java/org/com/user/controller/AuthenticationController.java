@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.component.JwtUtil;
 import org.com.user.entity.CustomUserDetails;
@@ -73,6 +74,11 @@ public class AuthenticationController {
                     )
             }
     )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "로그인 성공"),
+        @ApiResponse(responseCode = "401", description = "아이디 또는 비밀번호가 잘못됨"),
+        @ApiResponse(responseCode = "400", description = "유효하지 않은 요청 데이터")
+    })
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginData) {
         try {
@@ -148,6 +154,11 @@ public class AuthenticationController {
                     )
             )
     )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "회원가입 성공", content = {}),
+        @ApiResponse(responseCode = "409", description = "이미 존재하는 사용자 입니다.", content = {}),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터", content = {})
+    })
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> registrationData) {
         try {

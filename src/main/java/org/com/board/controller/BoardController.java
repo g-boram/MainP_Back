@@ -33,7 +33,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
-@CrossOrigin(origins = "http://localhost:3000") // React frontend port
+@CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Board API", description = "게시판 관련 API")
 @Validated
 public class BoardController {

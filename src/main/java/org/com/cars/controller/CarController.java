@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.board.service.S3Service;
 import org.com.cars.entity.Car;
@@ -41,6 +43,10 @@ public class CarController {
       summary = "특정 ID 차량 조회하기",
       description = "특정 ID의 차량을 조회합니다."
   )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "차량 조회 성공"),
+      @ApiResponse(responseCode = "404", description = "차량을 찾을 수 없음")
+  })
   @GetMapping("/{id}")
   public ResponseEntity<Car> getCarById(@PathVariable Long id) {
     return carService.getCarById(id)
@@ -83,6 +89,11 @@ public class CarController {
       summary = "차량 게시글 생성",
       description = "신규 차량을 생성합니다. JSON 형태의 CarReq와 파일을 함께 전송합니다."
   )
+  @ApiResponses({
+      @ApiResponse(responseCode = "201", description = "차량 등록 성공"),
+      @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터"),
+      @ApiResponse(responseCode = "409", description = "이미 등록된 차량")
+  })
   @PostMapping(consumes = {"multipart/form-data"})
   public Car createCar(
       @RequestPart("carReq") String carReq, // JSON 문자열로 받기
@@ -108,6 +119,11 @@ public class CarController {
       summary = "차량 게시글 수정",
       description = "차량 정보를 수정합니다. JSON 형태의 CarReq와 파일을 함께 전송합니다."
   )
+  @ApiResponses({
+      @ApiResponse(responseCode = "200", description = "차량 수정 성공"),
+      @ApiResponse(responseCode = "404", description = "수정할 차량을 찾을 수 없음"),
+      @ApiResponse(responseCode = "400", description = "잘못된 요청 데이터")
+  })
   @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
   public Car updateCar(
       @PathVariable Long id,
@@ -158,6 +174,10 @@ public class CarController {
       summary = "차량 게시글 삭제",
       description = "특정 차량을 삭제합니다."
   )
+  @ApiResponses({
+      @ApiResponse(responseCode = "204", description = "차량 삭제 성공"),
+      @ApiResponse(responseCode = "404", description = "삭제할 차량을 찾을 수 없음")
+  })
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
     if (carService.getCarById(id).isPresent()) {
