@@ -63,7 +63,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://www.hicar.shop",
+  "proxy": "https://boram-app-508882501bcb.herokuapp.com/",
   "devDependencies": {
     "@emotion/babel-plugin": "^11.13.5"
   },
