@@ -257,8 +257,8 @@ export default function CarDetailBox() {
                       amount: price,
                       orderId: `order-${Date.now()}`,
                       orderName: `${make} ${model}`,
-                      successUrl: "https://boram-app.com.herokuapp.com/buy/success",
-                      failUrl: "https://boram-app.com.herokuapp.com/buy/fail",
+                      successUrl: "https://www.hicar.shop/buy/success",
+                      failUrl: "https://www.hicar.shop/buy/fail",
                     })
                     .catch((error) => {
                       console.error(error);

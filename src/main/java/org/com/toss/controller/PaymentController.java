@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://boram-app.com.herokuapp.com")
+@CrossOrigin(origins = "https://www.hicar.shop")
 @Tag(name = "Toss API", description = "Toss 결제 관련 API")
 public class PaymentController {
 

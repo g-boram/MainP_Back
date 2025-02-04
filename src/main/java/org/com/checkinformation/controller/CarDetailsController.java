@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "https://boram-app.com.herokuapp.com", allowCredentials = "true")
+@CrossOrigin(origins = "https://www.hicar.shop", allowCredentials = "true")
 public class CarDetailsController {
 
     @Autowired
