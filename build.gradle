@@ -73,9 +73,9 @@ tasks.named('test') {
 
 node {
     nodeModulesDir = file("$projectDir/main-front")
-    version = '21.5.0'
+    version = 'v18.17.0'
     npmVersion = '10.2.4'
-    yarnVersion = '4.1.0'  // Yarn 버전을 명시
+    yarnVersion = '1.22.19'  // Yarn 버전을 명시
     download = true
 }
 
