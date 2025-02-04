@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-// Todo: 추가 개선 필요
+// Todo: 추가 개선 필요!
 @Configuration
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
