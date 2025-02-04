@@ -25,20 +25,20 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (REST API에 필요 없음)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**",
-                                "/swagger-ui/**", // Swagger UI 경로
-                                "/v3/api-docs/**", // OpenAPI 경로
-                                "/swagger-ui.html", // Swagger HTML
-                                "/login",
-                                "/register",
-                                "/board/**",
-                                "/car/**",
-                                "/users/**",
-                                "/details/**",
-                                "/api/**",
-                                "/other/**",
-                                "/buy/**"
+                        .requestMatchers("/**"
+//                                "/auth/**",
+//                                "/swagger-ui/**", // Swagger UI 경로
+//                                "/v3/api-docs/**", // OpenAPI 경로
+//                                "/swagger-ui.html", // Swagger HTML
+//                                "/login",
+//                                "/register",
+//                                "/board/**",
+//                                "/car/**",
+//                                "/users/**",
+//                                "/details/**",
+//                                "/api/**",
+//                                "/other/**",
+//                                "/buy/**"
 //                                "/www.hicar.shop",
 //                                "/hicar.shop"
                         ).permitAll() // 인증 없이 접근 가능한 경로
