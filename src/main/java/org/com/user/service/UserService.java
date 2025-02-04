@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class UserService {
 
 
     // 회원가입 처리
-    public User registerUser(
+    public void registerUser(
         String username,
         String email,
         String password,
@@ -59,11 +58,11 @@ public class UserService {
     ) throws Exception {
         // 이메일 중복 체크
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new CustomUserException.UserAlreadyExistsException("Email already in use");
+            throw new CustomUserException.UserAlreadyExistsException("이미 사용중인 이메일 입니다.");
         }
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(password);
-        // 새 사용자 생성
+
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setEmail(email);
@@ -75,8 +74,7 @@ public class UserService {
         newUser.setRole(role != null ? role : User.Role.USER);
         newUser.setImageUrl(imageUrl);
 
-        // 사용자 저장
-        return userRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
     // 전부 조회하기

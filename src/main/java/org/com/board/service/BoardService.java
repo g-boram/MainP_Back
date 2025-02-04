@@ -7,7 +7,6 @@ import org.com.board.dto.BoardRequestDto;
 import org.com.board.dto.BoardResponseDto;
 import org.com.board.entity.Board;
 import org.com.board.entity.BoardUpdateHistory;
-import org.com.cars.entity.Car;
 import org.com.user.entity.User;
 import org.com.board.repository.BoardRepository;
 import org.com.board.repository.BoardUpdateHistoryRepository;
@@ -117,7 +116,7 @@ public class BoardService {
     }
 
     @Transactional
-    public Board updateBoard(@NotNull BoardRequestDto boardRequestDto, Integer id, Integer updatedByUserId) {
+    public void updateBoard(@NotNull BoardRequestDto boardRequestDto, Integer id, Integer updatedByUserId) {
         // 게시글 검색
         Board board = boardRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Board not found"));
@@ -195,7 +194,7 @@ public class BoardService {
         }
 
         // 게시글 업데이트 후 저장
-        return boardRepository.save(board);
+        boardRepository.save(board);
     }
 
 

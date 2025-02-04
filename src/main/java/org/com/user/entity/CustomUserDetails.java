@@ -17,7 +17,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String role = "ROLE_" + user.getRole().toString(); // Ensure correct role format
+        String role = "ROLE_" + user.getRole().toString();
         return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
@@ -52,7 +52,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public String getUsernameDisplay() {
-        return user.getUsername(); // DB의 `username` 필드
+        return user.getUsername();
     }
 
     public String getCreatedAt() {

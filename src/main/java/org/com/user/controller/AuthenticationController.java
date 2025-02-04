@@ -85,18 +85,13 @@ public class AuthenticationController {
             String email = loginData.get("email");
             String password = loginData.get("password");
 
-            // 사용자 인증
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
             );
 
-            // 인증된 사용자 정보 가져오기
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-            // JWT 토큰 생성
             String token = jwtUtil.generateToken(userDetails.getUsername());
 
-            // 응답 데이터 생성
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
 
@@ -112,10 +107,8 @@ public class AuthenticationController {
 
             response.put("user", user);
 
-
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            e.printStackTrace(); // 디버깅을 위해 예외 출력
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("message", "아이디와 비밀번호를 확인해주세요.");
             return ResponseEntity.status(401).body(errorResponse);
@@ -172,16 +165,15 @@ public class AuthenticationController {
             String role = registrationData.get("role"); // role 추가
             String imageUrl = registrationData.get("imageUrl");
 
-            // role 값 파싱
             User.Role userRole = null;
             if (role != null) {
                 try {
                     userRole = User.Role.valueOf(role.toUpperCase());
                 } catch (IllegalArgumentException ex) {
-                    userRole = User.Role.USER; // 잘못된 값인 경우 기본값 설정
+                    userRole = User.Role.USER;
                 }
             }
-            // 회원가입
+
             userService.registerUser(username, email, password, phoneNumber, address, gender, birth, userRole, imageUrl);
 
             Map<String, String> response = new HashMap<>();
