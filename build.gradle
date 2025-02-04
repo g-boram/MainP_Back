@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.github.node-gradle.node' version '3.3.0'
 }
 
 group = 'org.com'
@@ -33,7 +34,7 @@ dependencies {
 
     // Database
     runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'com.h2database:h2'  // Optional: If you still want to use H2 for local testing
+    runtimeOnly 'com.h2database:h2'
 
     // MyBatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
@@ -46,7 +47,7 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 
     // OpenAPI (Swagger UI)
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -55,20 +56,52 @@ dependencies {
     // AWS
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.568'
 
-
     // JWT
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
-
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+node {
+    nodeModulesDir = file("$projectDir/main-front")
+    version = '21.5.0'
+    npmVersion = '10.2.4'
+    yarnVersion = '4.1.0'  // Yarn 버전을 명시
+    download = true
+}
+
+tasks.register('yarnInstall', com.github.gradle.node.yarn.task.YarnTask) {
+    args = ['install']
+}
+
+tasks.register('yarnBuild', com.github.gradle.node.yarn.task.YarnTask) {
+    args = ['build']
+    dependsOn 'yarnInstall'
+}
+
+tasks.register('copyFrontEnd', Copy) {
+    from "$projectDir/main-front/static"
+    into 'build/resources/main/static/.'
+    dependsOn 'yarnBuild'
+}
+
+tasks.register('cleanFrontEnd', Delete) {
+    delete "$projectDir/main-front/static", "$projectDir/main-front"
+}
+
+tasks.named('compileJava') {
+    dependsOn 'copyFrontEnd'
+}
+
+tasks.named('clean') {
+    dependsOn 'cleanFrontEnd'
 }

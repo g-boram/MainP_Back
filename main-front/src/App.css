@@ -1,0 +1,30 @@
+/* 스크롤바 전체 영역 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바 너비 */
+  height: 10px; /* 수평 스크롤바 높이 */
+}
+
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+  background: #fff; /* 트랙 배경색 */
+  border-radius: 6px;
+}
+
+/* 스크롤바 손잡이 */
+::-webkit-scrollbar-thumb {
+  /* background: #505050; */
+  background: linear-gradient(to right, #fff, #000);
+  border-radius: 5px;
+}
+
+/* 손잡이 호버 시 색상 */
+::-webkit-scrollbar-thumb:hover {
+  /* background: #e32727; */
+}
+
+@font-face {
+  font-family: "NanumHumanTTFBold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2501-1@1.1/NanumHumanTTFBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}

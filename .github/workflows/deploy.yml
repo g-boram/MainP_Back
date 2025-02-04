@@ -1,0 +1,3 @@
+heroku_api_key: ${{ secrets.HEROKU_DEPLOY_KEY }}
+heroku_email: goboramy@gmail.com
+heroku_app_name: boram-app
