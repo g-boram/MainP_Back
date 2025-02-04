@@ -16,7 +16,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/carsell")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://boram-app.com.herokuapp.com")
 @Tag(name = "CarSell API", description = "차량판매 API")
 public class CarSellController {
 

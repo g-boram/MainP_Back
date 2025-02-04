@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/car")
-@CrossOrigin(origins = "http://localhost:3000") // React frontend port
+@CrossOrigin(origins = "https://boram-app.com.herokuapp.com") // React frontend port
 @Tag(name = "Car API", description = "자동차 관련 API")
 public class CarController {
 

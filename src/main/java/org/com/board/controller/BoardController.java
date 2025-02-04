@@ -33,7 +33,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://boram-app.com.herokuapp.com")
 @Tag(name = "Board API", description = "게시판 관련 API")
 @Validated
 public class BoardController {
