@@ -1,3 +1,5 @@
+import com.github.gradle.node.yarn.task.YarnTask
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.0'
@@ -79,11 +81,11 @@ node {
     download = true
 }
 
-tasks.register('yarnInstall', com.github.gradle.node.yarn.task.YarnTask) {
+tasks.register('yarnInstall', YarnTask) {
     args = ['install']
 }
 
-tasks.register('yarnBuild', com.github.gradle.node.yarn.task.YarnTask) {
+tasks.register('yarnBuild', YarnTask) {
     args = ['build']
     dependsOn 'yarnInstall'
 }
