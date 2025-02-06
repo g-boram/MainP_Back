@@ -50,8 +50,8 @@ public class BoardController {
     }
 
     @Operation(
-        summary = "전체 차량 조회",
-        description = "전체 차량을 조회합니다."
+        summary = "전체 게시글 조회",
+        description = "전체 게시글을 조회합니다."
     )
     @GetMapping("/all")
     public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
@@ -72,8 +72,15 @@ public class BoardController {
 
     @Operation(summary = "게시판 ID로 조회", description = "특정 ID에 해당하는 게시판 정보를 반환합니다.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공적으로 데이터를 반환했습니다."),
-            @ApiResponse(responseCode = "404", description = "해당 ID의 게시판을 찾을 수 없습니다.")
+        @ApiResponse(responseCode = "200", description = "성공적으로 데이터를 반환했습니다."),
+        @ApiResponse(
+            responseCode = "404",
+            description = "해당 ID의 게시판을 찾을 수 없습니다.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "{\"message\": \"해당 게시글 ID의 게시글을 찾을 수 없습니다.\"}")
+            )
+        ),
     })
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Integer id) {
@@ -88,9 +95,30 @@ public class BoardController {
             "게시글 테스트 데이터 {\"title\":\"Test Board Title\",\"content\":\"This is the content of the board\",\"category\":\"other\",\"userId\":17,\"status\":\"ACTIVE\",\"role\":\"ADMIN\",\"imageUrl\":\"multipartFile\"}"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공적으로 게시판을 생성했습니다."),
-            @ApiResponse(responseCode = "400", description = "유효성 검증 실패."),
-            @ApiResponse(responseCode = "404", description = "게시판을 등록 할 수 없습니다.")
+        @ApiResponse(
+            responseCode = "200",
+            description = "성공적으로 게시판을 생성했습니다.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "성공적으로 게시판을 생성했습니다.")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "유효성 검증 실패.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "회원정보가 존재하지 않습니다.")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "게시글 등록 실패.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "등록에 실패하였습니다.")
+            )
+        ),
     })
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Map<String, String>> createBoard(
@@ -115,44 +143,58 @@ public class BoardController {
             )
         )
         @RequestPart(value="file", required = false)  MultipartFile file) throws JsonProcessingException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
 
+            String fileUrl = "";
+            if (file != null && !file.isEmpty()) {
+                fileUrl = s3Service.uploadFile(file);
+            }
 
-        System.out.println("[ createBoard ]-----Controller executed!");
+            boardRequestDto.setImageUrl(fileUrl);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
-
-        String fileUrl = "";
-        if (file != null && !file.isEmpty()) {
-            fileUrl = s3Service.uploadFile(file);
-        }
-
-        boardRequestDto.setImageUrl(fileUrl);
-
-        boardService.createBoard(boardRequestDto);
+            boardService.createBoard(boardRequestDto);
             Map<String, String> response = new HashMap<>();
             response.put("message", "게시글이 등록 되었습니다.");
-        return ResponseEntity.ok(response);
-    }
+            return ResponseEntity.ok(response);
+        } catch(Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "등록에 실패하였습니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
-//    @Operation(summary = "게시판 수정", description = "특정 ID의 게시판 정보를 수정합니다.")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "성공적으로 게시판을 수정했습니다."),
-//            @ApiResponse(responseCode = "404", description = "해당 ID의 게시판을 찾을 수 없습니다.")
-//    })
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Board> updateBoard(@PathVariable Integer id, @Valid @RequestBody BoardRequestDto boardRequestDto) {
-//        System.out.println("[ updateBoard ]-----Controller executed!");
-//        return ResponseEntity.ok(boardService.updateBoard(id, boardRequestDto));
+        }
+    }
 
     @Operation(
         summary = "게시글 수정",
         description = "게시판 데이터를 수정합니다. JSON 형태의 boardReq와 파일을 함께 전송합니다."
     )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "성공적으로 게시판을 수정했습니다."),
-        @ApiResponse(responseCode = "400", description = "유효성 검증 실패."),
-        @ApiResponse(responseCode = "404", description = "수정할 게시판을 찾을 수 없습니다.")
+        @ApiResponse(
+            responseCode = "200",
+            description = "성공적으로 게시판을 수정했습니다.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "성공적으로 게시판을 수정했습니다.")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "유효성 검증 실패.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "해당 ID의 게시글을 찾을 수 없습니다.")
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "게시글 수정 실패.",
+            content = @Content(
+                mediaType = "application/json",
+                examples = @ExampleObject(value = "오류가 발생했습니다.")
+            )
+        )
     })
     @PutMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Map<String, String>> updateBoard(
@@ -170,35 +212,48 @@ public class BoardController {
         )
         @RequestPart(value = "file", required = false) MultipartFile file) throws JsonProcessingException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            BoardRequestDto boardRequestDto = objectMapper.readValue(boardReqJson, BoardRequestDto.class);
 
-        // 게시글 ID가 유효한지 검증
-        if (boardRequestDto.getBoardId() == null || boardRequestDto.getBoardId() <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("message", "유효하지 않은 게시글 입니다."));
-        }
-        String fileUrl = boardService.getBoardImageUrl(boardRequestDto.getBoardId());
-
-        if (file != null && !file.isEmpty()) {
-            if (fileUrl != null && !fileUrl.isEmpty()) {
-                s3Service.deleteFile(fileUrl);
+            // 게시글 ID가 유효한지 검증
+            if (boardRequestDto.getBoardId() == null || boardRequestDto.getBoardId() <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "유효하지 않은 게시글 입니다."));
             }
-            fileUrl = s3Service.uploadFile(file);
-        }
-        boardRequestDto.setImageUrl(fileUrl);
-        boardService.updateBoard(boardRequestDto, boardRequestDto.getBoardId(), boardRequestDto.getUserId());
+            String fileUrl = boardService.getBoardImageUrl(boardRequestDto.getBoardId());
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "게시글이 수정되었습니다.");
-        return ResponseEntity.ok(response);
+            if (file != null && !file.isEmpty()) {
+                if (fileUrl != null && !fileUrl.isEmpty()) {
+                    s3Service.deleteFile(fileUrl);
+                }
+                fileUrl = s3Service.uploadFile(file);
+            }
+            boardRequestDto.setImageUrl(fileUrl);
+            boardService.updateBoard(boardRequestDto, boardRequestDto.getBoardId(), boardRequestDto.getUserId());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "게시글이 수정되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "오류가 발생했습니다.");
+            return ResponseEntity.ok(response);
+        }
     }
 
 
-    @Operation(summary = "게시판 삭제", description = "특정 ID의 게시판을 삭제합니다.")
+    @Operation(summary = "게시글 삭제", description = "특정 ID의 게시글을 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "성공적으로 삭제했습니다."),
-            @ApiResponse(responseCode = "404", description = "해당 ID의 게시판을 찾을 수 없습니다.")
+            @ApiResponse(
+                responseCode = "404",
+                description = "해당 ID의 게시글을 찾을 수 없습니다.",
+                content = @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\"message\": \"해당 ID의 게시글을 찾을 수 없습니다.\"}")
+                )
+            )
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Integer id) {
@@ -206,7 +261,7 @@ public class BoardController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "게시판 수정내역 조회", description = "특정 ID의 게시판의 수정내역을 보여줍니다.")
+    @Operation(summary = "게시글 수정내역 조회", description = "특정 ID 게시글의 수정내역을 조회.")
     @GetMapping("/history/{boardId}")
     public List<BoardUpdateHistory> getUpdateHistory(@PathVariable Integer boardId) {
         return boardUpdateHistoryService.getUpdateHistoryByBoardId(boardId);

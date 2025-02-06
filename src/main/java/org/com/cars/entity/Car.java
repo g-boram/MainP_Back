@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "Cars")
@@ -91,6 +94,8 @@ public class Car {
 
   @Column(name = "seller_status", nullable = true)
   private String sellerStatus; // 정비상태
+
+  private String message; // 통신 반환 메세지
 
   public enum FuelType {
     GASOLINE, DIESEL, ELECTRIC, HYBRID;

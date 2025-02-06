@@ -3,6 +3,7 @@ package org.com.cars.service;
 import org.com.cars.entity.Car;
 import org.com.cars.repository.CarRepository;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +18,12 @@ public class CarService {
     this.carRepository = carRepository;
   }
 
-  public List<Car> getAllCars() {
-    return carRepository.findAll();
+  public ResponseEntity<List<Car>> getAllCars() {
+    List<Car> cars = carRepository.findAll();
+    if (cars.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(cars);
   }
 
   public Optional<Car> getCarById(Long carId) {
@@ -31,8 +36,22 @@ public class CarService {
 
   // 차량 등록
   public Car saveCar(Car car) {
-    return carRepository.save(car);
+    // 중복확인
+    Optional<Car> carOptional = carRepository.findByCarNumber(car.getCarNumber());
+    if (carOptional.isPresent()) {
+      throw new IllegalArgumentException("409");
+    }
+    if (car.getModel() == null || car.getMake() == null) {
+      throw new IllegalArgumentException("400"); // 400 처리용
+    }
+    return carRepository.save(car); // 201 성공
   }
+
+  // 차량 업데이트
+  public void updateCar(Car car) {
+    carRepository.save(car);
+  }
+
 
   public void deleteCar(Long carId) {
     carRepository.deleteById(carId);

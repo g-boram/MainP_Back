@@ -69,6 +69,8 @@ public class User {
     @Column(name = "updated_user_name")
     private String updatedUserName;
 
+    private String resMessage;
+
     @PrePersist
     public void onPrePersist() {
         createdAt = LocalDateTime.now();

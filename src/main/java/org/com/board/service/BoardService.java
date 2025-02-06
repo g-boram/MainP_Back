@@ -55,10 +55,11 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+
     @Transactional(readOnly = true)
     public BoardResponseDto getBoardById(Integer id) {
         Board board = boardRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+            .orElseThrow(() -> new EntityNotFoundException("게시글의 아이디를 찾을 수 없습니다."));
 
         return new BoardResponseDto(
             board.getBoardId(),
@@ -72,6 +73,8 @@ public class BoardService {
             board.getUser().getUsername()
         );
     }
+
+
 
     @Transactional(readOnly = true)
     public Page<BoardResponseDto> getPagedBoards(Pageable pageable) {
@@ -90,10 +93,12 @@ public class BoardService {
         );
     }
 
+
+
     @Transactional
-    public Board createBoard(BoardRequestDto boardRequestDto) {
+    public void createBoard(BoardRequestDto boardRequestDto) {
         User user = userRepository.findById(boardRequestDto.getUserId())
-            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            .orElseThrow(() -> new EntityNotFoundException("회원정보가 존재하지 않습니다."));
 
 
         Board board = new Board();
@@ -104,7 +109,7 @@ public class BoardService {
         board.getImageUrl(boardRequestDto.getImageUrl());
         board.setUser(user);
 
-        return boardRepository.save(board);
+        boardRepository.save(board);
     }
 
 
@@ -117,9 +122,9 @@ public class BoardService {
 
     @Transactional
     public void updateBoard(@NotNull BoardRequestDto boardRequestDto, Integer id, Integer updatedByUserId) {
-        // 게시글 검색
+
         Board board = boardRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+            .orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
         List<BoardUpdateHistory> updateHistories = new ArrayList<>();
 
@@ -202,7 +207,7 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Integer id) {
         if (!boardRepository.existsById(id)) {
-            throw new EntityNotFoundException("Board not found");
+            throw new EntityNotFoundException("게시글의 아이디를 찾을 수 없습니다.");
         }
         boardRepository.deleteById(id);
     }

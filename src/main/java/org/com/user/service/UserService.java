@@ -1,5 +1,6 @@
 package org.com.user.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.com.component.JwtUtil;
 import org.com.user.dto.UserDto;
 import org.com.user.entity.User;
@@ -84,7 +85,7 @@ public class UserService {
 
     public User getUserByIdAll(Integer id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("해당하는 ID의 유저가 없습니다. : " + id));
+            .orElseThrow(() -> new EntityNotFoundException("해당하는 ID의 유저가 없습니다. : " + id));
     }
 
     public boolean isEmailDuplicated(String email) {
@@ -100,7 +101,8 @@ public class UserService {
             user.getUsername(),
             user.getEmail(),
             user.getPhoneNumber(),
-            user.getRole().name()
+            user.getRole().name(),
+            user.getResMessage()
         );
     }
 
@@ -112,7 +114,7 @@ public class UserService {
             phoneNumber, gender);
     }
 
-    public User updateUser(Integer id, User updatedUser) {
+    public void updateUser(Integer id, User updatedUser) {
         User existingUser = getUserByIdAll(id);
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setEmail(updatedUser.getEmail());
@@ -126,7 +128,8 @@ public class UserService {
         existingUser.setImageUrl(updatedUser.getImageUrl());
         existingUser.setUpdatedUserId(updatedUser.getUpdatedUserId());
         existingUser.setUpdatedUserName(updatedUser.getUpdatedUserName());
-        return userRepository.save(existingUser);
+
+        userRepository.save(existingUser);
     }
 
     public void deleteUser(Integer id) {

@@ -1,5 +1,6 @@
 package org.com.toss.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.com.toss.entity.PaymentEntity;
 import org.com.toss.service.PaymentService;
@@ -17,11 +18,23 @@ public class PaymentController {
   private PaymentService paymentService;
 
 
+
+  @Operation(
+      summary = "결제 영수증 저장",
+      description = "결제된 영수증을 저장합니다."
+  )
   @PostMapping("/buy/success")
   public String savePayment(@RequestBody PaymentEntity payment) {
     paymentService.savePayment(payment);
     return "Payment data saved successfully!";
   }
+
+
+
+  @Operation(
+      summary = "전체 결제 영수증 조회하기",
+      description = "결제된 모든 영수증을 조회합니다."
+  )
   @GetMapping("/buy/order")
   public List<PaymentEntity> getDistinctOrderData() {
     return paymentService.getDistinctOrderIdsWithData();
