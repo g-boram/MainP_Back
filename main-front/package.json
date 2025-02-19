@@ -63,7 +63,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "https://www.hicar.shop/",
   "devDependencies": {
     "@emotion/babel-plugin": "^11.13.5"
   },
