@@ -5,3 +5,6 @@ node_modules/
 /test/
 /coverage/
 /tmp/
+
+
+main-front/node_modules/
