@@ -21,7 +21,7 @@ export default function MainCarBox() {
       setIsLoading(true);
       try {
         const res = await getCarListAll();
-        const cars = res.data.filter((car) => car.status === "AVAILABLE" && car.eventName === "");
+        const cars = res.data.filter((car) => car.status === "Available" && car.eventName === "");
         const eventCars = res.data.filter((car) => car.eventName !== "");
         setCarData(cars);
         setEventCarData(eventCars);

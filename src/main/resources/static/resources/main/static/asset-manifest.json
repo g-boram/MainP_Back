@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4d0bb44c.css",
+    "main.js": "/static/js/main.9f2a9bb4.js",
+    "static/js/453.55795812.chunk.js": "/static/js/453.55795812.chunk.js",
+    "static/media/signinCar.png": "/static/media/signinCar.528c03492b4c5da81c86.png",
+    "static/media/signupCar.png": "/static/media/signupCar.cfccfce58813f36c90bd.png",
+    "static/media/boardMainImg.jpg": "/static/media/boardMainImg.83d24ce45cc3cee8e836.jpg",
+    "static/media/companyimg.jpg": "/static/media/companyimg.16ca0a91949b88d5fc67.jpg",
+    "static/media/mainSlide2.jpg": "/static/media/mainSlide2.b42e696f80b9950ffe55.jpg",
+    "static/media/mainSlide4.jpg": "/static/media/mainSlide4.8fe137c24f0db18c3065.jpg",
+    "static/media/mainSlide5.jpg": "/static/media/mainSlide5.26d0f89fa7c4214f055e.jpg",
+    "static/media/centerTo1.png": "/static/media/centerTo1.637b2c0d0cee435c3803.png",
+    "static/media/mainSlide3.jpg": "/static/media/mainSlide3.6b8c62877f1d1a4b0b4a.jpg",
+    "static/media/mainSlide1.jpg": "/static/media/mainSlide1.6bbb6769fbdbd947e6a0.jpg",
+    "static/media/mainToSide1.png": "/static/media/mainToSide1.d830efd7ff912528d8c4.png",
+    "static/media/success_bg.png": "/static/media/success_bg.a7b42e3d644e3b47ab83.png",
+    "static/media/mainToSide2.png": "/static/media/mainToSide2.abb1826cc0ef6990e74f.png",
+    "static/media/carPageImg.jpg": "/static/media/carPageImg.6b1a04d14ede93fed993.jpg",
+    "static/media/market_price_graph.png": "/static/media/market_price_graph.907a0d4c6131c6591646.png",
+    "static/media/MapLogo2.png": "/static/media/MapLogo2.edab6c0d057ca42f2e2d.png",
+    "static/media/comlogo.png": "/static/media/comlogo.4e880533411065a634d0.png",
+    "index.html": "/index.html",
+    "main.4d0bb44c.css.map": "/static/css/main.4d0bb44c.css.map",
+    "main.9f2a9bb4.js.map": "/static/js/main.9f2a9bb4.js.map",
+    "453.55795812.chunk.js.map": "/static/js/453.55795812.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4d0bb44c.css",
+    "static/js/main.9f2a9bb4.js"
+  ]
+}
